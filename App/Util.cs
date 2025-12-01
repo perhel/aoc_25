@@ -1,25 +1,42 @@
-﻿namespace App
+﻿using System.Diagnostics;
+
+namespace App
 {
     internal static class Util
     {
-        public static void RunDaily(bool test = false, int? day = null)
+        public static void RunDaily(bool test = false, int? dayOverride = null)
         {
-            string date = (day ?? DateTimeOffset.Now.Day).ToString().PadLeft(2, '0');
-            Type? type = System.Reflection.Assembly.GetExecutingAssembly()
-                .GetTypes()
-                .FirstOrDefault(t => t.FullName.Equals($"App._{date}.Run"));
-
-            if (type is not null && type.IsAssignableTo(typeof(IDay)))
+            try
             {
-                IDay day = (IDay)Activator.CreateInstance(type);
-                day.Part1(ReadInputFleLines(Path.Combine(date, test ? "test.txt" : "input.txt")));
-                day.Reset();
-                day.Part2(ReadInputFleLines(Path.Combine(date, test ? "test.txt" : "input.txt")));
+                string date = (dayOverride ?? DateTimeOffset.Now.Day).ToString().PadLeft(2, '0');
+                Type? type = System.Reflection.Assembly.GetExecutingAssembly()
+                    .GetTypes()
+                    .FirstOrDefault(t => t.FullName == $"App._{date}.Run");
+    
+                if (type is not null && type.IsAssignableTo(typeof(IDay)))
+                {
+                    Stopwatch sw = Stopwatch.StartNew();
+                    IDay day = (IDay)Activator.CreateInstance(type)!;
+                    Console.WriteLine($"--- Day{date} Part 1 ---");
+                    day.Part1(ReadInputFleLines(Path.Combine(date, test ? "test.txt" : "input.txt")));
+                    Console.WriteLine($"Completed in {sw.ElapsedMilliseconds} ms");
+                    sw.Restart();
+                    day.Reset();
+                    Console.WriteLine($"--- Day{date} Part 2 ---");
+                    day.Part2(ReadInputFleLines(Path.Combine(date, test ? "test.txt" : "input.txt")));
+                    Console.WriteLine($"Completed in {sw.ElapsedMilliseconds} ms");
+                    Console.WriteLine();
+                    sw.Stop();
+                }
+                else Console.WriteLine($"Day {date} is not implemented correctly...");
             }
-            else Console.WriteLine($"Day {date} is not implemented...");
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
-        private static IEnumerable<string> ReadInputFleLines(string path)
+        private static string[] ReadInputFleLines(string path)
             => File.ReadAllLines(path);
     }
 }

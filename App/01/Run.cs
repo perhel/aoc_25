@@ -9,22 +9,11 @@
 
         public void Part1(IEnumerable<string> input)
         {
-            IEnumerable<int> lines = input
-                .Select(l => l.StartsWith('R') ? int.Parse(l[1..]) : -int.Parse(l[1..]));
-
-            foreach (var n in lines)
+            foreach (var line in input)
             {
-                int internalPos = _currentPos;
-                for (int i = 0; i < Math.Abs(n); i++)
-                {
-                    if (n < 0) internalPos -= 1;
-                    else internalPos += 1;
+                int move = ParseMove(line);
+                _currentPos = (_currentPos + move) % 100;
 
-                    if (internalPos < 0) internalPos = 99;
-                    if (internalPos > 99) internalPos = 0;
-                }
-
-                _currentPos = internalPos;
                 if (_currentPos == 0) _atZeroCount++;
             }
 
@@ -33,19 +22,15 @@
 
         public void Part2(IEnumerable<string> input)
         {
-            IEnumerable<int> lines = input
-                .Select(l => l.StartsWith('R') ? int.Parse(l[1..]) : -int.Parse(l[1..]));
-
-            foreach (var n in lines)
+            foreach (var line in input)
             {
-                int internalPos = _currentPos;
-                for (int i = 0; i < Math.Abs(n); i++)
-                {
-                    if (n < 0) internalPos -= 1;
-                    else internalPos += 1;
+                int move = ParseMove(line);
 
-                    if (internalPos < 0) internalPos = 99;
-                    if (internalPos > 99) internalPos = 0;
+                int internalPos = _currentPos;
+                for (int i = 0; i < Math.Abs(move); i++)
+                {
+                    int step = move < 0 ? -1 : 1;
+                    internalPos = (internalPos + step) % 100;
 
                     if (internalPos == 0) _atZeroCount++;
                 }
@@ -54,6 +39,13 @@
             }
 
             Console.WriteLine(_atZeroCount);
+        }
+
+        private static int ParseMove(string line)
+        {
+            int move = int.Parse(line[1..]);
+            if (line.StartsWith('L')) move = -move;
+            return move;
         }
 
         public void Reset()
