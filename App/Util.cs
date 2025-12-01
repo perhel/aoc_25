@@ -18,12 +18,12 @@ namespace App
                     Stopwatch sw = Stopwatch.StartNew();
                     IDay day = (IDay)Activator.CreateInstance(type)!;
                     Console.WriteLine($"--- Day{date} Part 1 ---");
-                    day.Part1(ReadInputFleLines(Path.Combine(date, test ? "test.txt" : "input.txt")));
+                    day.Part1(ReadInputFileLines(Path.Combine(date, test ? "test.txt" : "input.txt")));
                     Console.WriteLine($"Completed in {sw.ElapsedMilliseconds} ms");
                     sw.Restart();
                     day.Reset();
                     Console.WriteLine($"--- Day{date} Part 2 ---");
-                    day.Part2(ReadInputFleLines(Path.Combine(date, test ? "test.txt" : "input.txt")));
+                    day.Part2(ReadInputFileLines(Path.Combine(date, test ? "test.txt" : "input.txt")));
                     Console.WriteLine($"Completed in {sw.ElapsedMilliseconds} ms");
                     Console.WriteLine();
                     sw.Stop();
@@ -36,7 +36,7 @@ namespace App
             }
         }
 
-        private static string[] ReadInputFleLines(string path)
+        private static string[] ReadInputFileLines(string path)
             => File.ReadAllLines(path);
     }
 }
