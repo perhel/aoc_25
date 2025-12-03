@@ -3,24 +3,24 @@ namespace App._03
 {
     internal class Run : IDay
     {
-        public string Part1(IEnumerable<string> input)
+        public void Part1(IEnumerable<string> input)
         {
             int joltageNumberCount = 2;
             IEnumerable<long> batteries = input.Select(l => l.Trim())
                 .Select(line => line.Select(c => c - '0').ToArray())
                 .Select(digitArray => BuildJoltage(ref digitArray, joltageNumberCount));
 
-            return batteries.Sum().ToString();
+            Console.WriteLine(batteries.Sum());
         }
 
-        public string Part2(IEnumerable<string> input)
+        public void Part2(IEnumerable<string> input)
         {
             int joltageNumberCount = 12;
             IEnumerable<long> batteries = input.Select(l => l.Trim())
                 .Select(line => line.Select(c => c - '0').ToArray())
                 .Select(digitArray => BuildJoltage(ref digitArray, joltageNumberCount));
 
-            return batteries.Sum().ToString();
+            Console.WriteLine(batteries.Sum());
         }
 
         private static long BuildJoltage(ref int[] digits, int joltageNumberCount)
