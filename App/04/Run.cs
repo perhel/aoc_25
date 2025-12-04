@@ -3,18 +3,17 @@ namespace App._04
 {
     internal class Run : IDay
     {
-        private readonly HashSet<long> _rolls = [];
-        private readonly HashSet<long> _pickable = [];
+        private readonly HashSet<LongCoord> _rolls = [];
+        private readonly HashSet<LongCoord> _pickable = [];
 
         public void Part1(IEnumerable<string> input)
         {
             string[] lines = [.. input];
             FindRolls(lines);
-            foreach (long roll in _rolls.Where(r => LessThanXNeighbors(r, _rolls, 3)))
+            foreach (LongCoord roll in _rolls.Where(r => LessThanXNeighbors(r, _rolls, 3)))
             {
                 _pickable.Add(roll);
             }
-
 
             Console.WriteLine(_pickable.Count.ToString());
         }
@@ -25,11 +24,11 @@ namespace App._04
             FindRolls(lines);
             while (true)
             {
-                IEnumerable<long> canPick = _rolls.Where(r => LessThanXNeighbors(r, _rolls, 3));
+                IEnumerable<LongCoord> canPick = _rolls.Where(r => LessThanXNeighbors(r, _rolls, 3));
 
                 if (!canPick.Any()) break;
 
-                foreach (long roll in canPick)
+                foreach (LongCoord roll in canPick)
                 {
                     _pickable.Add(roll);
                     _rolls.Remove(roll);
@@ -47,26 +46,14 @@ namespace App._04
                 {
                     if (lines[i][j] == '@')
                     {
-                        _rolls.Add(Encode(j, i));
+                        _rolls.Add(LongCoord.FromXY(j, i));
                     }
                 }
             }
         }
 
-        private static long Encode(int x, int y)
-            => ((long)x << 32) | (uint)y;
-
-        private static int DecodeX(long coord)
-            => (int)(coord >> 32);
-
-        private static int DecodeY(long coord)
-            => (int)coord;
-
-        private static bool LessThanXNeighbors(long roll, HashSet<long> rolls, int maxNeighbors)
+        private static bool LessThanXNeighbors(LongCoord roll, HashSet<LongCoord> rolls, int maxNeighbors)
         {
-            int rollX = DecodeX(roll);
-            int rollY = DecodeY(roll);
-
             int neighborCount = 0;
 
             for (int dX = -1; dX <= 1; dX++)
@@ -75,7 +62,7 @@ namespace App._04
                 {
                     if (dX == 0 && dY == 0) continue;
 
-                    if (rolls.Contains(Encode(rollX + dX, rollY + dY)))
+                    if (rolls.Contains(LongCoord.FromXY(roll.X + dX, roll.Y + dY)))
                         neighborCount++;
 
                     if (neighborCount > maxNeighbors) return false;
