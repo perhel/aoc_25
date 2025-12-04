@@ -1,5 +1,4 @@
-﻿
-namespace App._04
+﻿namespace App._04
 {
     internal class Run : IDay
     {
@@ -10,12 +9,7 @@ namespace App._04
         {
             string[] lines = [.. input];
             FindRolls(lines);
-            foreach (LongCoord roll in _rolls.Where(r => LessThanXNeighbors(r, _rolls, 3)))
-            {
-                _pickable.Add(roll);
-            }
-
-            Console.WriteLine(_pickable.Count.ToString());
+            Console.WriteLine(_rolls.Where(r => LessThanXNeighbors(r, _rolls, 3)).Count().ToString());
         }
 
         public void Part2(IEnumerable<string> input)
