@@ -6,7 +6,7 @@ namespace App._04
         private readonly HashSet<long> _rolls = [];
         private readonly HashSet<long> _pickable = [];
 
-        public string Part1(IEnumerable<string> input)
+        public void Part1(IEnumerable<string> input)
         {
             string[] lines = [.. input];
             FindRolls(lines);
@@ -16,10 +16,10 @@ namespace App._04
             }
 
 
-            return _pickable.Count.ToString();
+            Console.WriteLine(_pickable.Count.ToString());
         }
 
-        public string Part2(IEnumerable<string> input)
+        public void Part2(IEnumerable<string> input)
         {
             string[] lines = [.. input];
             FindRolls(lines);
@@ -36,7 +36,7 @@ namespace App._04
                 }
             }
 
-            return _pickable.Count.ToString();
+            Console.WriteLine(_pickable.Count.ToString());
         }
 
         private void FindRolls(string[] lines)
