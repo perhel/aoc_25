@@ -12,6 +12,7 @@
     <Folder Include="02\" />
     <Folder Include="03\" />
     <Folder Include="04\" />
+    <Folder Include="05\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,6 +38,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="04\test.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="05\input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="05\test.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
