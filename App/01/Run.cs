@@ -2,8 +2,6 @@
 {
     internal class Run : IDay
     {
-        private readonly int _min = 0;
-        private readonly int _max = 99;
         private int _currentPos = 50;
         private int _atZeroCount = 0;
 
