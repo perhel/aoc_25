@@ -3,12 +3,6 @@ using System.Runtime.InteropServices;
 
 namespace App._06
 {
-    internal enum Op
-    {
-        Add = 0,
-        Multiply = 9000
-    }
-
     internal class Run : IDay
     {
         private readonly Dictionary<int, long> _results = [];
