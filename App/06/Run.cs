@@ -1,7 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.Runtime.InteropServices;
-
-namespace App._06
+﻿namespace App._06
 {
     internal class Run : IDay
     {
